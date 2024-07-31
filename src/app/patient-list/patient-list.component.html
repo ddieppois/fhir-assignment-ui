@@ -1,64 +1,83 @@
 <div>
   <h2>Patients with Allergies</h2>
-  <mat-nav-list>
-    <mat-list-item *ngFor="let patient of patients">
-      <button mat-button (click)="onPatientClick(patient.id)">
-        {{ patient.firstName }} {{ patient.lastName }}
-      </button>
-    </mat-list-item>
-  </mat-nav-list>
+  <div class="patient-list">
+    <mat-nav-list class="patient-nav-list">
+      <mat-list-item *ngFor="let patient of patients">
+        <button mat-button (click)="onPatientClick(patient.id)">
+          {{ patient.firstName }} {{ patient.lastName }}
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
 
   <div *ngIf="selectedPatientAllergies.length > 0">
-    <h3>Allergies for Patient: {{ selectedPatientName }}</h3>
-    <form [formGroup]="allergyForm" (ngSubmit)="onSubmit()">
-      <div formArrayName="allergies">
-        <div *ngFor="let allergy of allergies.controls; let i = index" [formGroupName]="i">
-          <mat-card>
-            <mat-card-title>Allergy {{ i + 1 }}</mat-card-title>
-            <mat-card-content>
-              <mat-form-field>
-                <mat-label>Code</mat-label>
-                <input matInput formControlName="code">
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Type</mat-label>
-                <input matInput formControlName="type">
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Clinical Status</mat-label>
-                <input matInput formControlName="clinicalStatus">
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Verification Status</mat-label>
-                <input matInput formControlName="verificationStatus">
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Note</mat-label>
-                <textarea matInput formControlName="note"></textarea>
-              </mat-form-field>
-              <div formArrayName="reactions">
-                <div *ngFor="let reaction of getReactionsFormArray(i).controls; let j = index" [formGroupName]="j">
-                  <mat-form-field>
-                    <mat-label>Substance</mat-label>
-                    <input matInput formControlName="substance">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Manifestations</mat-label>
-                    <textarea matInput formControlName="manifestations"></textarea>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Description</mat-label>
-                    <textarea matInput formControlName="description"></textarea>
-                  </mat-form-field>
+    <div class="header">
+      <h3>Allergies for Patient: {{ selectedPatientName }}</h3>
+      <button mat-button color="primary" type="button" (click)="printPatientAllergies()">Print Allergies</button>
+    </div>
+    <div id="allergy-print-section">
+      <form [formGroup]="allergyForm" (ngSubmit)="onSubmit()">
+        <div formArrayName="allergies">
+          <div *ngFor="let allergy of allergies.controls; let i = index" [formGroupName]="i">
+            <mat-card class="allergy-card">
+              <mat-card-title>Allergy {{ i + 1 }}</mat-card-title>
+              <mat-card-content>
+                <mat-form-field appearance="fill">
+                  <mat-label>Code</mat-label>
+                  <input matInput formControlName="code">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Type</mat-label>
+                  <input matInput formControlName="type">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Clinical Status</mat-label>
+                  <input matInput formControlName="clinicalStatus">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Verification Status</mat-label>
+                  <input matInput formControlName="verificationStatus">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Note</mat-label>
+                  <textarea matInput formControlName="note"></textarea>
+                </mat-form-field>
+                <div formArrayName="reactions">
+                  <div *ngFor="let reaction of getReactionsFormArray(i).controls; let j = index" [formGroupName]="j" class="reaction-group">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Substance</mat-label>
+                      <input matInput formControlName="substance">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Manifestations</mat-label>
+                      <textarea matInput formControlName="manifestations"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Description</mat-label>
+                      <textarea matInput formControlName="description"></textarea>
+                    </mat-form-field>
+                    <div class="reaction-icons">
+                      <button mat-icon-button color="warn" type="button" (click)="onDeleteReaction(i, j)">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <button mat-button color="warn" type="button" (click)="onDeleteAllergy(i)">Delete</button>
-            </mat-card-content>
-          </mat-card>
+                <button mat-button color="accent" type="button" (click)="onAddReaction(i)">Add Reaction</button>
+                <button mat-button class="delete-allergy-button" type="button" (click)="onDeleteAllergy(i)">Delete Allergy</button>
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
-      </div>
-      <button mat-raised-button color="primary" type="submit">Save Allergies</button>
-      <button mat-button color="accent" type="button" (click)="onAddAllergy()">Add Allergy</button>
-    </form>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!allergyForm.dirty || isSubmitting">
+            Save Allergies
+          </button>
+          <button mat-button color="accent" type="button" (click)="onAddAllergy()">Add Allergy</button>
+        </div>
+        <div *ngIf="saveSuccess" class="success-message">Allergies saved successfully!</div>
+        <div *ngIf="saveError" class="error-message">Failed to save allergies. Please try again.</div>
+      </form>
+    </div>
   </div>
 </div>
