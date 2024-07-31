@@ -1,0 +1,64 @@
+<div>
+  <h2>Patients with Allergies</h2>
+  <mat-nav-list>
+    <mat-list-item *ngFor="let patient of patients">
+      <button mat-button (click)="onPatientClick(patient.id)">
+        {{ patient.firstName }} {{ patient.lastName }}
+      </button>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <div *ngIf="selectedPatientAllergies.length > 0">
+    <h3>Allergies for Patient: {{ selectedPatientName }}</h3>
+    <form [formGroup]="allergyForm" (ngSubmit)="onSubmit()">
+      <div formArrayName="allergies">
+        <div *ngFor="let allergy of allergies.controls; let i = index" [formGroupName]="i">
+          <mat-card>
+            <mat-card-title>Allergy {{ i + 1 }}</mat-card-title>
+            <mat-card-content>
+              <mat-form-field>
+                <mat-label>Code</mat-label>
+                <input matInput formControlName="code">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Type</mat-label>
+                <input matInput formControlName="type">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Clinical Status</mat-label>
+                <input matInput formControlName="clinicalStatus">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Verification Status</mat-label>
+                <input matInput formControlName="verificationStatus">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Note</mat-label>
+                <textarea matInput formControlName="note"></textarea>
+              </mat-form-field>
+              <div formArrayName="reactions">
+                <div *ngFor="let reaction of getReactionsFormArray(i).controls; let j = index" [formGroupName]="j">
+                  <mat-form-field>
+                    <mat-label>Substance</mat-label>
+                    <input matInput formControlName="substance">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Manifestations</mat-label>
+                    <textarea matInput formControlName="manifestations"></textarea>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-button color="warn" type="button" (click)="onDeleteAllergy(i)">Delete</button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" type="submit">Save Allergies</button>
+      <button mat-button color="accent" type="button" (click)="onAddAllergy()">Add Allergy</button>
+    </form>
+  </div>
+</div>
