@@ -103,15 +103,18 @@ button:disabled {
   width: 48%;
 }
 
-/* Reaction button container */
-.reaction-button-container {
+/* Reaction icons */
+.reaction-icons {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center; /* Align icons vertically in the center */
+  margin-left: 10px;
 }
 
-.reaction-button-container button {
-  width: 48%;
+.reaction-group {
+  display: flex; /* Ensure the reaction form and icons are on the same line */
+  align-items: center;
+  gap: 10px; /* Add some space between the form fields and the icons */
+  margin-bottom: 10px;
 }
 
 /* Print button alignment */
@@ -137,18 +140,6 @@ button:disabled {
 
 .patient-list button {
   width: 100%;
-}
-
-/* Reaction icons */
-.reaction-icons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 10px;
-}
-
-.reaction-icons button {
-  margin-bottom: 5px;
 }
 
 /* Success and Error messages */
