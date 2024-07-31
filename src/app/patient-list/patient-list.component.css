@@ -124,22 +124,19 @@ button:disabled {
   align-items: center;
 }
 
-/* Patient list styles */
 .patient-list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
-.patient-list mat-list-item {
-  flex: 1 1 auto;
-  width: auto;
-  max-width: 200px;
+.patient-item {
+  flex: 0 1 auto;
 }
 
-.patient-list button {
+.patient-item button {
   width: 100%;
+  text-align: center;
 }
 
 /* Success and Error messages */

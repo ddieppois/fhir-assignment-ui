@@ -1,13 +1,11 @@
 <div>
   <h2>Patients with Allergies</h2>
   <div class="patient-list">
-    <mat-nav-list class="patient-nav-list">
-      <mat-list-item *ngFor="let patient of patients">
-        <button mat-button (click)="onPatientClick(patient.id)">
-          {{ patient.firstName }} {{ patient.lastName }}
-        </button>
-      </mat-list-item>
-    </mat-nav-list>
+    <div *ngFor="let patient of patients" class="patient-item">
+      <button mat-button (click)="onPatientClick(patient.id)">
+        {{ patient.firstName }} {{ patient.lastName }}
+      </button>
+    </div>
   </div>
 
   <div *ngIf="selectedPatientAllergies.length > 0">
