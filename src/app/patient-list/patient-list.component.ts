@@ -40,6 +40,7 @@ export class PatientListComponent implements OnInit {
   selectedPatientAllergies: AllergyIntolerance[] = [];
   selectedPatientId: string | null = null;
   selectedPatientName: string | null = null;
+  enteredPatientId: string = '';
   allergyForm: FormGroup;
   originalAllergies: AllergyIntolerance[] = [];
   isSubmitting = false;
@@ -57,20 +58,30 @@ export class PatientListComponent implements OnInit {
       this.patients = data;
     });
 
+    // Reset success message on form changes
     this.allergyForm.valueChanges.subscribe(() => {
-      this.allergyForm.markAsDirty();
+      this.saveSuccess = false;
     });
   }
 
   onPatientClick(patientId: string): void {
+    this.loadPatientAllergies(patientId);
+  }
+
+  onPatientIdSubmit(): void {
+    if (this.enteredPatientId) {
+      this.loadPatientAllergies(this.enteredPatientId);
+    }
+  }
+
+  private loadPatientAllergies(patientId: string): void {
     this.selectedPatientId = patientId;
     const selectedPatient = this.patients.find(patient => patient.id === patientId);
-    this.selectedPatientName = selectedPatient ? `${selectedPatient.firstName} ${selectedPatient.lastName}` : '';
+    this.selectedPatientName = selectedPatient ? `${selectedPatient.firstName} ${selectedPatient.lastName}` : `ID-${patientId}`;
     this.fhirService.getAllergiesForPatient(patientId).subscribe((data: AllergyIntolerance[]) => {
       this.selectedPatientAllergies = data;
       this.originalAllergies = JSON.parse(JSON.stringify(data));
       this.setAllergiesForm(data);
-      this.allergyForm.markAsPristine();
     });
   }
 
@@ -90,11 +101,13 @@ export class PatientListComponent implements OnInit {
     }));
     const allergyFormArray = this.fb.array(allergyFGs);
     this.allergyForm.setControl('allergies', allergyFormArray);
+    this.allergyForm.markAsPristine(); // Mark form as pristine initially
   }
 
   onDeleteAllergy(index: number) {
     (this.allergyForm.get('allergies') as FormArray).removeAt(index);
-    this.allergyForm.markAsDirty();
+    this.allergyForm.markAsDirty(); // Mark form as dirty after deletion
+    this.saveSuccess = false; // Reset success message
   }
 
   get allergies(): FormArray {
@@ -117,7 +130,8 @@ export class PatientListComponent implements OnInit {
       reactions: this.fb.array([this.createReaction()])
     });
     allergyArray.push(newAllergy);
-    this.allergyForm.markAsDirty();
+    this.allergyForm.markAsDirty(); // Mark form as dirty after addition
+    this.saveSuccess = false; // Reset success message
   }
 
   createReaction(): FormGroup {
@@ -131,13 +145,15 @@ export class PatientListComponent implements OnInit {
   onAddReaction(allergyIndex: number) {
     const reactionsArray = this.getReactionsFormArray(allergyIndex);
     reactionsArray.push(this.createReaction());
-    this.allergyForm.markAsDirty();
+    this.allergyForm.markAsDirty(); // Mark form as dirty after addition
+    this.saveSuccess = false; // Reset success message
   }
 
   onDeleteReaction(allergyIndex: number, reactionIndex: number) {
     const reactionsArray = this.getReactionsFormArray(allergyIndex);
     reactionsArray.removeAt(reactionIndex);
-    this.allergyForm.markAsDirty();
+    this.allergyForm.markAsDirty(); // Mark form as dirty after deletion
+    this.saveSuccess = false; // Reset success message
   }
 
   onSubmit() {
@@ -167,6 +183,7 @@ export class PatientListComponent implements OnInit {
       );
 
       const request: AllergyUpdateRequest = { updatedAllergies: modifiedAllergies, deletedAllergies };
+      console.log(request);
       this.fhirService.updateAllergiesForPatient(this.selectedPatientId, request).subscribe(
         () => {
           this.saveSuccess = true;

@@ -1,5 +1,18 @@
 <div>
   <h2>Patients with Allergies</h2>
+
+  <!-- Patient ID Input Field -->
+  <div class="patient-id-input">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter Patient ID</mat-label>
+      <input matInput [(ngModel)]="enteredPatientId" placeholder="Patient ID">
+    </mat-form-field>
+    <button mat-button color="primary" type="button" (click)="onPatientIdSubmit()" class="small-button">
+      Get Allergies
+    </button>
+  </div>
+
+  <!-- Existing Patient List -->
   <div class="patient-list">
     <div *ngFor="let patient of patients" class="patient-item">
       <button mat-button (click)="onPatientClick(patient.id)">
@@ -8,6 +21,7 @@
     </div>
   </div>
 
+  <!-- Allergies Section -->
   <div *ngIf="selectedPatientAllergies.length > 0">
     <div class="header">
       <h3>Allergies for Patient: {{ selectedPatientName }}</h3>

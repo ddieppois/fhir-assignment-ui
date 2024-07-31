@@ -139,6 +139,14 @@ button:disabled {
   text-align: center;
 }
 
+.small-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  vertical-align: middle; /* Align with form input */
+  margin-top: -2px; /* Slightly raises the button */
+}
+
 /* Success and Error messages */
 .success-message {
   color: green;
