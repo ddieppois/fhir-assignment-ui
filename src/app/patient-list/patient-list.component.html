@@ -54,28 +54,36 @@
                   <mat-label>Note</mat-label>
                   <textarea matInput formControlName="note"></textarea>
                 </mat-form-field>
-                <div formArrayName="reactions">
-                  <div *ngFor="let reaction of getReactionsFormArray(i).controls; let j = index" [formGroupName]="j" class="reaction-group">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Substance</mat-label>
-                      <input matInput formControlName="substance">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                      <mat-label>Manifestations</mat-label>
-                      <textarea matInput formControlName="manifestations"></textarea>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                      <mat-label>Description</mat-label>
-                      <textarea matInput formControlName="description"></textarea>
-                    </mat-form-field>
-                    <div class="reaction-icons">
-                      <button mat-icon-button color="warn" type="button" (click)="onDeleteReaction(i, j)">
-                        <mat-icon>remove</mat-icon>
-                      </button>
+
+                <!-- Encapsulated Reaction Section -->
+                <mat-card class="reaction-card">
+                  <mat-card-title>Reactions</mat-card-title>
+                  <mat-card-content>
+                    <div formArrayName="reactions">
+                      <div *ngFor="let reaction of getReactionsFormArray(i).controls; let j = index" [formGroupName]="j" class="reaction-group">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Substance</mat-label>
+                          <input matInput formControlName="substance">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Manifestations</mat-label>
+                          <textarea matInput formControlName="manifestations"></textarea>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Description</mat-label>
+                          <textarea matInput formControlName="description"></textarea>
+                        </mat-form-field>
+                        <div class="reaction-icons">
+                          <button mat-icon-button color="warn" type="button" (click)="onDeleteReaction(i, j)">
+                            <mat-icon>remove</mat-icon>
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <button mat-button color="accent" type="button" (click)="onAddReaction(i)">Add Reaction</button>
+                    <button mat-button color="accent" type="button" (click)="onAddReaction(i)">Add Reaction</button>
+                  </mat-card-content>
+                </mat-card>
+
                 <button mat-button class="delete-allergy-button" type="button" (click)="onDeleteAllergy(i)">Delete Allergy</button>
               </mat-card-content>
             </mat-card>

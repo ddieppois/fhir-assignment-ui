@@ -8,7 +8,7 @@ body {
 
 /* Form container */
 form {
-  max-width: 800px;
+  max-width: 1000px; /* Increased width for the entire form */
   margin: auto;
   padding: 20px;
   background: #ffffff;
@@ -25,7 +25,7 @@ form h3 {
 
 /* Form fields */
 .mat-form-field {
-  width: 100%;
+  width: calc(50% - 10px); /* Adjust width to fit two fields per row */
   margin-bottom: 20px;
 }
 
@@ -51,6 +51,48 @@ mat-card-title {
 
 mat-card-content {
   padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* Ensure there's spacing between elements */
+}
+
+/* Encapsulated Reaction Card */
+.reaction-card {
+  width: 100%; /* Ensure it fits within the main form */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 15px; /* Increased padding */
+  box-sizing: border-box;
+}
+
+/* Reaction Group Styling */
+.reaction-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjusted gap for more spacing */
+  margin-bottom: 10px;
+  width: 100%; /* Ensure the reaction group fits within the main form */
+  flex-wrap: wrap;
+}
+
+/* Ensure the input fields and icons fit within the container */
+.reaction-group .mat-form-field {
+  flex: 1 1 calc(33.33% - 10px); /* Adjusted width to fit three fields per row */
+}
+
+/* Reaction icons */
+.reaction-icons {
+  display: flex;
+  align-items: center;
+  margin-left: 5px; /* Reduced margin for better alignment */
+}
+
+.reaction-icons button {
+  margin-bottom: 0;
+  padding: 2px 6px; /* Smaller button size */
+  font-size: 12px;
 }
 
 /* Button styles */
@@ -61,6 +103,7 @@ button {
 button[type="submit"] {
   background-color: #007bff;
   color: white;
+  padding: 10px 20px;
 }
 
 button[type="submit"]:hover {
@@ -70,6 +113,7 @@ button[type="submit"]:hover {
 button[type="button"] {
   background-color: #6c757d;
   color: white;
+  padding: 10px 20px;
 }
 
 button[type="button"]:hover {
@@ -78,12 +122,12 @@ button[type="button"]:hover {
 
 /* Delete Allergy button */
 button.delete-allergy-button {
-  background-color: #ff4d4d; /* Red color for delete */
+  background-color: #ff4d4d;
   color: white;
 }
 
 button.delete-allergy-button:hover {
-  background-color: #cc0000; /* Darker red on hover */
+  background-color: #cc0000;
 }
 
 /* Disabled button style */
@@ -103,18 +147,13 @@ button:disabled {
   width: 48%;
 }
 
-/* Reaction icons */
-.reaction-icons {
-  display: flex;
-  align-items: center; /* Align icons vertically in the center */
+/* Small button styling */
+.small-button {
   margin-left: 10px;
-}
-
-.reaction-group {
-  display: flex; /* Ensure the reaction form and icons are on the same line */
-  align-items: center;
-  gap: 10px; /* Add some space between the form fields and the icons */
-  margin-bottom: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  vertical-align: middle;
+  margin-top: -2px;
 }
 
 /* Print button alignment */
@@ -139,21 +178,13 @@ button:disabled {
   text-align: center;
 }
 
-.small-button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  font-size: 14px;
-  vertical-align: middle; /* Align with form input */
-  margin-top: -2px; /* Slightly raises the button */
-}
-
 /* Success and Error messages */
 .success-message {
   color: green;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .error-message {
   color: red;
-  margin-top: 20px;
+  margin-top: 15px;
 }
